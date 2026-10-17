@@ -14,7 +14,7 @@ A small, fast Android app that compresses PSP `.iso` images to `.cso`.
 
 ## Install
 
-Every push that changes `iso2cso-android/` runs the **ISO2CSO APK** GitHub Actions workflow. The workflow runs the unit tests, builds a signed release APK, and publishes it to the `iso2cso-latest` pre-release.
+Every push runs the **ISO2CSO APK** GitHub Actions workflow. The workflow runs the unit tests, builds a signed release APK, and publishes it to the `iso2cso-latest` pre-release.
 
 1. On your phone, open the repo's **Releases** page → **ISO2CSO (latest build)** → download `iso2cso.apk`.
 2. Open the downloaded file and allow "Install unknown apps" for your browser or file manager when asked.
@@ -28,7 +28,6 @@ Every push that changes `iso2cso-android/` runs the **ISO2CSO APK** GitHub Actio
 ## Build locally
 
 ```sh
-cd iso2cso-android
 ./gradlew test assembleRelease     # needs the Android SDK (platform 35)
 # APK: app/build/outputs/apk/release/app-release.apk
 ```
