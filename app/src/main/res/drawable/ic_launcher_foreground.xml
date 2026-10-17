@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp" android:height="108dp"
+    android:viewportWidth="108" android:viewportHeight="108">
+    <!-- disc -->
+    <path android:fillColor="#FFFFFF"
+        android:pathData="M54,26A28,28 0,1 0,82 54,28 28,0 0,0 54,26ZM54,47A7,7 0,1 1,47 54,7 7,0 0,1 54,47Z" />
+    <!-- squeeze arrows -->
+    <path android:fillColor="#3D5AFE"
+        android:pathData="M54,49l-6,-8h4v-6h4v6h4ZM54,59l6,8h-4v6h-4v-6h-4Z" />
+</vector>

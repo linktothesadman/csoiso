@@ -1,0 +1,48 @@
+name: ISO2CSO APK
+
+on:
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      # Keep the signing key stable between runs so new APKs install over old ones.
+      - uses: actions/cache@v4
+        with:
+          path: ~/.android/debug.keystore
+          key: iso2cso-debug-keystore
+
+      - name: Test and build
+        run: ./gradlew --no-daemon test assembleRelease
+
+      - name: Rename APK
+        run: cp app/build/outputs/apk/release/app-release.apk iso2cso.apk
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: iso2cso-apk
+          path: iso2cso.apk
+
+      - name: Publish to the iso2cso-latest release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release delete iso2cso-latest --yes --cleanup-tag || true
+          gh release create iso2cso-latest iso2cso.apk \
+            --target "$GITHUB_SHA" --prerelease \
+            --title "ISO2CSO (latest build)" \
+            --notes "Built from ${GITHUB_REF_NAME} @ ${GITHUB_SHA::7}. Download iso2cso.apk on your phone and open it to install."
