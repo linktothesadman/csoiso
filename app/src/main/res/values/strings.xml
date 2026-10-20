@@ -1,19 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">ISO2CSO</string>
-    <string name="tagline">Shrink PSP ISOs to CSO. Uses every CPU core, maximum deflate.</string>
-    <string name="step_isos">1 · ISO files</string>
-    <string name="pick_isos">Choose ISOs…</string>
-    <string name="no_isos">Choose one or more ISO files</string>
-    <string name="step_folder">2 · Save CSOs to</string>
+    <string name="tagline">Shrink PSP games. Uses every CPU core.</string>
+    <string name="mode_compress">ISO → CSO</string>
+    <string name="mode_decompress">CSO → ISO</string>
+    <string name="queue">Queue</string>
+    <string name="queue_empty">Add PSP .iso or .cso files, or a whole folder.</string>
+    <string name="add_files">Add files</string>
+    <string name="add_folder">Add folder</string>
+    <string name="clear_done">Clear done</string>
+    <string name="clear_all">Clear all</string>
+    <string name="convert_cso">Convert to CSO</string>
+    <string name="convert_iso">Convert to ISO</string>
+    <string name="cancel">Cancel</string>
+    <string name="output">Save to</string>
     <string name="pick_folder">Choose folder…</string>
     <string name="no_folder">Choose an output folder</string>
-    <string name="step_options">3 · Compression</string>
-    <string name="mode_smallest">Smallest files (16 KB blocks) — PPSSPP</string>
-    <string name="mode_compatible">Compatible (2 KB blocks) — real PSP + PPSSPP</string>
-    <string name="exhaustive">Extra squeeze — try multiple deflate strategies per block</string>
-    <string name="delete_original">Delete the original ISO after it converts</string>
-    <string name="convert">Convert</string>
-    <string name="cancel">Cancel</string>
-    <string name="total_saved">Saved %1$s  (%2$s → %3$s)</string>
+    <string name="compression">Compression</string>
+    <string name="block_compatible">Compatible: plays on a real PSP and PPSSPP (2 KB blocks)</string>
+    <string name="block_smallest">Smallest: PPSSPP only, about 15% smaller (16 KB blocks)</string>
+    <string name="level_max">Max: Zopfli, about 2–3% smaller, slower</string>
+    <string name="level_fast">Fast: about 20× quicker</string>
+    <string name="options">Options</string>
+    <string name="naming_label">Name output files</string>
+    <string name="existing_label">If the file already exists</string>
+    <string name="verify">Verify each file after converting</string>
+    <string name="delete_original">Delete originals after a verified conversion</string>
+    <string name="remove">Remove</string>
+    <string name="lifetime_saved">%1$s saved so far</string>
+    <string name="delete_confirm_title">Delete originals?</string>
+    <string name="delete_confirm">Each original file will be deleted after its converted copy is verified. This can\'t be undone.</string>
+    <string name="delete_confirm_ok">Convert and delete</string>
+    <string-array name="naming_options">
+        <item>Same as the original file</item>
+        <item>Game title [disc ID]</item>
+    </string-array>
+    <string-array name="existing_options">
+        <item>Skip it</item>
+        <item>Replace it</item>
+        <item>Keep both</item>
+    </string-array>
 </resources>

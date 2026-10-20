@@ -1,29 +1,39 @@
 # ISO2CSO for Android
 
-A small, fast Android app that compresses PSP `.iso` images to `.cso`.
+A fast Android app that compresses PSP `.iso` images to `.cso`, and turns CSOs back into ISOs.
 
-- **Quick:** every block is compressed in parallel across all CPU cores, and the next chunk is read while the current one compresses.
-- **Small output:** every block is compressed at deflate level 9. "Extra squeeze" also tries a second deflate strategy on each block and keeps the smaller result.
+## Features
+
+- **Small, compatible CSOs.** In **Max** mode every block is compressed with Zopfli and with zlib level 9, and the smaller result is kept. That's 2–3% smaller than zlib alone. The output is standard deflate, so any CSO reader can decode it.
 - **Two block-size modes:**
-  - *Smallest files (16 KB blocks):* usually about 5% smaller than 2 KB blocks. Plays in PPSSPP.
-  - *Compatible (2 KB blocks):* the standard CSO layout, which a real PSP running custom firmware can also read.
-- Converts several ISOs in one run, in the background (foreground service with a progress notification and a Cancel button).
-- Can delete the original ISO after it converts successfully.
-- Needs no storage permission. Files are chosen with the system file picker (Storage Access Framework).
-- Targets Android 15 (SDK 35) and runs on Android 8.0 and later, including the Galaxy S23 Ultra.
+  - **Compatible (2 KB blocks, default):** plays on a real PSP running custom firmware, and in PPSSPP.
+  - **Smallest (16 KB blocks):** usually 10–20% smaller still, but PPSSPP only.
+- **Uses every CPU core.** Blocks are compressed in parallel while the next chunk is being read.
+- **Verified output.** Each new file is decoded and checked against a CRC32 of the source. **Delete originals** only runs after that check passes.
+- **Two-way conversion:** ISO → CSO, CSO → ISO, and re-compressing an existing CSO (for example, from 16 KB to 2 KB blocks).
+- **Game info:** the queue shows each game's icon, title and disc ID, read from the image. An option names output files `Title [ULUS10036].cso`.
+- **Easy to add files:** pick files, add a whole folder (searched up to 4 levels deep), or use "Open with" / "Share" from a file manager.
+- **Queue:** per-file status, overall progress, speed and time remaining. Files that already exist can be skipped, replaced or kept as a second copy.
+- **Runs in the background:** a foreground service shows a progress notification with a Cancel button, and posts a summary when it finishes.
+- A running total of the space you've saved.
+- **No storage permission:** files are opened with the system file picker. Targets Android 15 (SDK 35) and runs on Android 8.0+, including the Galaxy S23 Ultra.
 
 ## Install
 
-Every push runs the **ISO2CSO APK** GitHub Actions workflow. The workflow runs the unit tests, builds a signed release APK, and publishes it to the `iso2cso-latest` pre-release.
+Every push runs the **ISO2CSO APK** GitHub Actions workflow. It runs the unit tests, builds a signed release APK, and publishes it to the `iso2cso-latest` pre-release.
 
 1. On your phone, open the repo's **Releases** page → **ISO2CSO (latest build)** → download `iso2cso.apk`.
 2. Open the downloaded file and allow "Install unknown apps" for your browser or file manager when asked.
 
 ## Use
 
-1. **Choose ISOs…**: pick one or more `.iso` files.
-2. **Choose folder…**: pick where to save the `.cso` files. The app remembers this folder. Android won't let apps write to the root of `Download`, so choose or create a subfolder such as `Download/PSP` or `PSP/GAME`.
-3. Choose a compression mode and tap **Convert**.
+1. **Add files** or **Add folder**.
+2. **Choose folder…** to pick where to save the output. Android won't let apps write to the root of `Download`, so choose a subfolder such as `PSP/ISO`.
+3. Pick the compression settings and tap **Convert to CSO**.
+
+## CSO format notes
+
+CISO v1: a 24-byte header, then `blocks + 1` little-endian u32 index entries, then the block data. Each block is a raw deflate stream. If compressing a block doesn't make it smaller, the block is stored uncompressed and bit 31 of its index entry is set. Images that could exceed 2 GiB use the header's alignment field.
 
 ## Build locally
 
@@ -32,6 +42,6 @@ Every push runs the **ISO2CSO APK** GitHub Actions workflow. The workflow runs t
 # APK: app/build/outputs/apk/release/app-release.apk
 ```
 
-## CSO format notes
+## Third-party code
 
-CISO v1: a 24-byte header, then `blocks + 1` little-endian u32 index entries, then the block data. Each block is a raw deflate stream. If compressing a block doesn't make it smaller, the block is stored uncompressed and bit 31 of its index entry is set. Images that could exceed 2 GiB use the header's alignment field.
+`app/src/main/java/ru/eustas/zopfli` is the Java port of Google's Zopfli by Eugene Klyuchnikov, included unmodified under the Apache License 2.0. See `third_party/zopfli`.

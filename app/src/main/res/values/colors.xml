@@ -4,4 +4,7 @@
     <color name="background">#F6F7FB</color>
     <color name="card">#FFFFFF</color>
     <color name="text_secondary">#5F6470</color>
+    <color name="placeholder">#E3E6EF</color>
+    <color name="error">#C62828</color>
+    <color name="success">#2E7D32</color>
 </resources>
