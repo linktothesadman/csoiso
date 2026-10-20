@@ -25,6 +25,10 @@ Every push runs the **ISO2CSO APK** GitHub Actions workflow. It runs the unit te
 1. On your phone, open the repo's **Releases** page → **ISO2CSO (latest build)** → download `iso2cso.apk`.
 2. Open the downloaded file and allow "Install unknown apps" for your browser or file manager when asked.
 
+If Android says **App not installed** or **package conflicts**, a copy signed with a different key is already installed. Uninstall it once, then install the new APK.
+
+To keep every future build signed with one key, add three repository secrets: `SIGNING_KEYSTORE_B64` (the `.jks` file in base64), `SIGNING_KEYSTORE_PASSWORD` and `SIGNING_KEY_ALIAS`. Without them, CI signs with a cached debug key.
+
 ## Use
 
 1. **Add files** or **Add folder**.

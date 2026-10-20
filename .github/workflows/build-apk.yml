@@ -20,13 +20,27 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v4
 
-      # Keep the signing key stable between runs so new APKs install over old ones.
+      # Fallback signing key for when the SIGNING_KEYSTORE_B64 secret isn't set.
       - uses: actions/cache@v4
         with:
           path: ~/.android/debug.keystore
           key: iso2cso-debug-keystore
 
+      - name: Load signing key
+        env:
+          KEYSTORE_B64: ${{ secrets.SIGNING_KEYSTORE_B64 }}
+        run: |
+          if [ -n "$KEYSTORE_B64" ]; then
+            echo "$KEYSTORE_B64" | base64 -d > "$RUNNER_TEMP/release.jks"
+            echo "ISO2CSO_KEYSTORE=$RUNNER_TEMP/release.jks" >> "$GITHUB_ENV"
+          else
+            echo "::warning::SIGNING_KEYSTORE_B64 is not set; signing with the debug key."
+          fi
+
       - name: Test and build
+        env:
+          ISO2CSO_KEYSTORE_PASSWORD: ${{ secrets.SIGNING_KEYSTORE_PASSWORD }}
+          ISO2CSO_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
         run: ./gradlew --no-daemon test assembleRelease
 
       - name: Rename APK

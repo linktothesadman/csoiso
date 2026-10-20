@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- A UMD being squeezed: the shell, the disc inside it, and two chevrons. -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp" android:height="108dp"
     android:viewportWidth="108" android:viewportHeight="108">
-    <!-- disc -->
-    <path android:fillColor="#FFFFFF"
-        android:pathData="M54,26A28,28 0,1 0,82 54,28 28,0 0,0 54,26ZM54,47A7,7 0,1 1,47 54,7 7,0 0,1 54,47Z" />
-    <!-- squeeze arrows -->
-    <path android:fillColor="#3D5AFE"
-        android:pathData="M54,49l-6,-8h4v-6h4v6h4ZM54,59l6,8h-4v6h-4v-6h-4Z" />
+    <group android:pivotX="54" android:pivotY="54"
+        android:scaleX="0.8" android:scaleY="0.8">
+        <!-- shell, with the disc window, label slot and corner dot cut out -->
+        <path android:fillColor="#FFFFFFFF" android:fillType="evenOdd"
+            android:pathData="M38,30H70A4,4 0,0 1,74 34V56A20,20 0,0 1,34 56V34A4,4 0,0 1,38 30Z M54,42A15,15 0,1 0,54 72A15,15 0,1 0,54 42Z M41,34.5H57A1.5,1.5 0,0 1,57 37.5H41A1.5,1.5 0,0 1,41 34.5Z M66,34.5A1.5,1.5 0,1 1,66 37.5A1.5,1.5 0,1 1,66 34.5Z" />
+        <!-- disc -->
+        <path android:fillColor="#FFFFFFFF" android:fillType="evenOdd"
+            android:pathData="M54,45.5A11.5,11.5 0,1 0,54 68.5A11.5,11.5 0,1 0,54 45.5Z M54,53.5A3.5,3.5 0,1 0,54 60.5A3.5,3.5 0,1 0,54 53.5Z" />
+        <!-- squeeze chevrons -->
+        <path android:fillColor="#FFFFFFFF"
+            android:pathData="M17,48l3.5,-3.5l11,11l-11,11l-3.5,-3.5l7.5,-7.5z" />
+        <path android:fillColor="#FFFFFFFF"
+            android:pathData="M91,48l-3.5,-3.5l-11,11l11,11l3.5,-3.5l-7.5,-7.5z" />
+    </group>
 </vector>
