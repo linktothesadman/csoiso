@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="accent">#7A35F0</color>
-    <color name="background">#F6F7FB</color>
+    <!-- Brand -->
+    <color name="brand_pink">#FF4F8B</color>
+    <color name="brand_purple">#8A3FFC</color>
+    <color name="brand_deep">#3A1C9C</color>
+
+    <color name="accent">#7B2FF7</color>
+    <color name="accent_tonal">#F1E8FF</color>
+    <color name="background">#FBF7FF</color>
     <color name="card">#FFFFFF</color>
-    <color name="text_secondary">#5F6470</color>
-    <color name="placeholder">#E3E6EF</color>
-    <color name="error">#C62828</color>
-    <color name="success">#2E7D32</color>
+    <color name="card_stroke">#EFE6FF</color>
+    <color name="text_primary">#1B1530</color>
+    <color name="text_secondary">#6B6380</color>
+    <color name="placeholder">#EDE6F7</color>
+    <color name="error">#E5484D</color>
+    <color name="success">#16A34A</color>
+    <color name="segment_bg">#EFE7FB</color>
 </resources>

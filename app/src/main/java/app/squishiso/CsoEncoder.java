@@ -1,4 +1,4 @@
-package com.iso2cso.app;
+package app.squishiso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package com.iso2cso.app;
+package app.squishiso;
 
 import android.content.Intent;
 import android.content.SharedPreferences;

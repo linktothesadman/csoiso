@@ -3,28 +3,28 @@ plugins {
 }
 
 android {
-    namespace "com.iso2cso.app"
+    namespace "app.squishiso"
     compileSdk 35
 
     defaultConfig {
-        applicationId "com.iso2cso.app"
-        minSdk 26
+        applicationId "app.squishiso"
+        minSdk 24
         targetSdk 35
-        versionCode 3
-        versionName "2.1"
+        versionCode 1
+        versionName "1.0"
     }
 
-    // Release builds use the key named by ISO2CSO_KEYSTORE (CI decodes it from
+    // Release builds use the key named by SQUISH_KEYSTORE (CI decodes it from
     // the SIGNING_KEYSTORE_B64 secret) so every APK installs as an update over
     // the last. Without it they fall back to the debug key.
-    def ks = System.getenv("ISO2CSO_KEYSTORE")
+    def ks = System.getenv("SQUISH_KEYSTORE")
     signingConfigs {
         release {
             if (ks) {
                 storeFile file(ks)
-                storePassword System.getenv("ISO2CSO_KEYSTORE_PASSWORD")
-                keyAlias System.getenv("ISO2CSO_KEY_ALIAS")
-                keyPassword System.getenv("ISO2CSO_KEYSTORE_PASSWORD")
+                storePassword System.getenv("SQUISH_KEYSTORE_PASSWORD")
+                keyAlias System.getenv("SQUISH_KEY_ALIAS")
+                keyPassword System.getenv("SQUISH_KEYSTORE_PASSWORD")
             }
         }
     }
@@ -45,6 +45,8 @@ android {
 
     lint {
         abortOnError false
+        // Fail the release build on any API call that doesn't exist on minSdk.
+        fatal "NewApi"
     }
 }
 

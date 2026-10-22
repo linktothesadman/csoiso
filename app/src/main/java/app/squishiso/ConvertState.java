@@ -1,4 +1,4 @@
-package com.iso2cso.app;
+package app.squishiso;
 
 import android.os.Handler;
 import android.os.Looper;

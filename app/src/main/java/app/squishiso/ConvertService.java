@@ -1,4 +1,4 @@
-package com.iso2cso.app;
+package app.squishiso;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -31,8 +31,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 /** Foreground service that works through the queue so conversions survive leaving the app. */
 public class ConvertService extends Service {
 
-    public static final String ACTION_START = "com.iso2cso.app.START";
-    public static final String ACTION_CANCEL = "com.iso2cso.app.CANCEL";
+    public static final String ACTION_START = "app.squishiso.START";
+    public static final String ACTION_CANCEL = "app.squishiso.CANCEL";
 
     private static final String CHANNEL_PROGRESS = "convert";
     private static final String CHANNEL_DONE = "done";
@@ -137,7 +137,7 @@ public class ConvertService extends Service {
 
     private void runAll(List<Task> tasks, ConvertOptions opts) {
         PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-        PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "iso2cso:convert");
+        PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "squishiso:convert");
         wl.acquire(6 * 60 * 60 * 1000L);
         ContentResolver cr = getContentResolver();
         Map<String, String> existing = Docs.children(cr, opts.outputTree);
@@ -423,9 +423,22 @@ public class ConvertService extends Service {
                 .setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         PendingIntent pi = PendingIntent.getActivity(this, 0, open,
                 PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
-        return new Notification.Builder(this, channel)
-                .setSmallIcon(R.drawable.ic_notification)
+        Notification.Builder b;
+        if (Build.VERSION.SDK_INT >= 26) {
+            b = new Notification.Builder(this, channel);
+        } else {
+            b = legacyBuilder(channel);
+        }
+        return b.setSmallIcon(R.drawable.ic_notification)
+                .setColor(getColor(R.color.brand_pink))
                 .setContentIntent(pi);
+    }
+
+    /** Android 7.x has no channels; map each channel to a priority instead. */
+    @SuppressWarnings("deprecation")
+    private Notification.Builder legacyBuilder(String channel) {
+        return new Notification.Builder(this).setPriority(CHANNEL_PROGRESS.equals(channel)
+                ? Notification.PRIORITY_LOW : Notification.PRIORITY_DEFAULT);
     }
 
     private Notification progressNotification(String title, String text, int pct, boolean indeterminate) {
@@ -446,6 +459,7 @@ public class ConvertService extends Service {
     }
 
     private void createChannels() {
+        if (Build.VERSION.SDK_INT < 26) return;
         NotificationManager nm = getSystemService(NotificationManager.class);
         nm.createNotificationChannel(new NotificationChannel(CHANNEL_PROGRESS, "Conversion progress",
                 NotificationManager.IMPORTANCE_LOW));

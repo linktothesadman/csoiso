@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">ISO2CSO</string>
-    <string name="tagline">Shrink PSP games. Uses every CPU core.</string>
+    <string name="app_name">SquishISO</string>
+    <string name="tagline">Shrink your game discs</string>
+    <string name="tagline_sub">ISO → CSO, perfectly playable. 100% offline.</string>
+    <string name="saved_sub">saved across all your games</string>
     <string name="mode_compress">ISO → CSO</string>
     <string name="mode_decompress">CSO → ISO</string>
     <string name="queue">Queue</string>
-    <string name="queue_empty">Add PSP .iso or .cso files, or a whole folder.</string>
+    <string name="queue_empty_title">Nothing to squish yet</string>
+    <string name="queue_empty">Add .iso or .cso files, or a whole folder.</string>
     <string name="add_files">Add files</string>
     <string name="add_folder">Add folder</string>
     <string name="clear_done">Clear done</string>
     <string name="clear_all">Clear all</string>
-    <string name="convert_cso">Convert to CSO</string>
-    <string name="convert_iso">Convert to ISO</string>
+    <string name="convert_cso">Squish to CSO</string>
+    <string name="convert_iso">Unsquish to ISO</string>
     <string name="cancel">Cancel</string>
     <string name="output">Save to</string>
     <string name="pick_folder">Choose folder…</string>
@@ -27,7 +30,8 @@
     <string name="verify">Verify each file after converting</string>
     <string name="delete_original">Delete originals after a verified conversion</string>
     <string name="remove">Remove</string>
-    <string name="lifetime_saved">%1$s saved so far</string>
+    <string name="about">About</string>
+    <string name="lifetime_saved">%1$s squished</string>
     <string name="delete_confirm_title">Delete originals?</string>
     <string name="delete_confirm">Each original file will be deleted after its converted copy is verified. This can\'t be undone.</string>
     <string name="delete_confirm_ok">Convert and delete</string>
@@ -40,4 +44,8 @@
         <item>Replace it</item>
         <item>Keep both</item>
     </string-array>
+    <string name="about_title">About SquishISO</string>
+    <string name="about_body">SquishISO %1$s\n\nShrinks game disc images (ISO) into compressed CSO files that play in emulators and on custom-firmware handhelds, and turns CSOs back into ISOs.\n\n• 100%% offline: no internet permission, no ads, no tracking, no accounts.\n• Every file is verified bit-for-bit after converting.\n• Compatible mode (2 KB blocks) works on real hardware and PPSSPP. Smallest mode (16 KB blocks) is for PPSSPP only.\n\nOnly convert games you own.\n\nPSP is a trademark of Sony Interactive Entertainment. SquishISO is not affiliated with or endorsed by Sony.</string>
+    <string name="licenses">Licenses</string>
+    <string name="licenses_body">SquishISO uses the Java port of Zopfli.\n\nCafeUndZopfli (Java port of Zopfli by Eugene Klyuchnikov)\nCopyright 2014 Google Inc. All Rights Reserved.\n\nLicensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at\n\nhttp://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</string>
 </resources>

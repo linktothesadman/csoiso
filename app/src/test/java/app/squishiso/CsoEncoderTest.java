@@ -1,4 +1,4 @@
-package com.iso2cso.app;
+package app.squishiso;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;

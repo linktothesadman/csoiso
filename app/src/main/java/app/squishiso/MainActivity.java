@@ -1,4 +1,4 @@
-package com.iso2cso.app;
+package app.squishiso;
 
 import android.Manifest;
 import android.app.Activity;
@@ -58,7 +58,8 @@ public class MainActivity extends Activity implements ConvertState.Listener {
     private boolean binding;
 
     private LinearLayout queueList;
-    private TextView queueEmpty, queueSummary, folderText, statusText, statText, footer;
+    private View queueEmpty;
+    private TextView queueSummary, folderText, statusText, statText, heroSub, footer;
     private RadioButton modeCompress, modeDecompress, blockCompatible, blockSmallest, levelMax, levelFast;
     private Spinner naming, existing;
     private CheckBox verify, deleteOriginal;
@@ -93,6 +94,7 @@ public class MainActivity extends Activity implements ConvertState.Listener {
         folderText = findViewById(R.id.folder_text);
         statusText = findViewById(R.id.status);
         statText = findViewById(R.id.stat);
+        heroSub = findViewById(R.id.hero_sub);
         footer = findViewById(R.id.footer);
         modeCompress = findViewById(R.id.mode_compress);
         modeDecompress = findViewById(R.id.mode_decompress);
@@ -121,12 +123,7 @@ public class MainActivity extends Activity implements ConvertState.Listener {
                 && checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[] {Manifest.permission.POST_NOTIFICATIONS}, 0);
         }
-        try {
-            footer.setText("v" + getPackageManager().getPackageInfo(getPackageName(), 0).versionName
-                    + " · Zopfli compression © Google, Apache 2.0");
-        } catch (PackageManager.NameNotFoundException ignored) {
-            // no footer
-        }
+        footer.setText(getString(R.string.app_name) + " " + versionName() + " · About & licenses");
         if (savedInstanceState == null) handleIncoming(getIntent());
     }
 
@@ -146,6 +143,32 @@ public class MainActivity extends Activity implements ConvertState.Listener {
     protected void onPause() {
         state.removeListener(this);
         super.onPause();
+    }
+
+    private String versionName() {
+        try {
+            return getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            return "";
+        }
+    }
+
+    private void showAbout() {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.about_title)
+                .setMessage(getString(R.string.about_body, versionName()))
+                .setPositiveButton(android.R.string.ok, null)
+                .setNeutralButton(R.string.licenses, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface d, int which) {
+                        new AlertDialog.Builder(MainActivity.this)
+                                .setTitle(R.string.licenses)
+                                .setMessage(R.string.licenses_body)
+                                .setPositiveButton(android.R.string.ok, null)
+                                .show();
+                    }
+                })
+                .show();
     }
 
     // ---------- options ----------
@@ -256,6 +279,14 @@ public class MainActivity extends Activity implements ConvertState.Listener {
                 state.notifyChanged();
             }
         });
+        View.OnClickListener about = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showAbout();
+            }
+        };
+        findViewById(R.id.about).setOnClickListener(about);
+        footer.setOnClickListener(about);
         convertButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -457,7 +488,8 @@ public class MainActivity extends Activity implements ConvertState.Listener {
     private void launchService() {
         Intent i = new Intent(this, ConvertService.class).setAction(ConvertService.ACTION_START);
         opts.toIntent(i);
-        startForegroundService(i);
+        if (Build.VERSION.SDK_INT >= 26) startForegroundService(i);
+        else startService(i);
     }
 
     // ---------- rendering ----------
@@ -500,6 +532,7 @@ public class MainActivity extends Activity implements ConvertState.Listener {
         long saved = prefs.getLong("lifetimeSaved", 0);
         statText.setText(saved > 0 ? getString(R.string.lifetime_saved, Formatter.formatShortFileSize(this, saved))
                 : getString(R.string.tagline));
+        heroSub.setText(saved > 0 ? R.string.saved_sub : R.string.tagline_sub);
         renderQueue();
     }
 

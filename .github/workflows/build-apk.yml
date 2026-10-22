@@ -1,4 +1,4 @@
-name: ISO2CSO APK
+name: SquishISO APK
 
 on:
   push:
@@ -24,7 +24,7 @@ jobs:
       - uses: actions/cache@v4
         with:
           path: ~/.android/debug.keystore
-          key: iso2cso-debug-keystore
+          key: squishiso-debug-keystore
 
       - name: Load signing key
         env:
@@ -32,31 +32,31 @@ jobs:
         run: |
           if [ -n "$KEYSTORE_B64" ]; then
             echo "$KEYSTORE_B64" | base64 -d > "$RUNNER_TEMP/release.jks"
-            echo "ISO2CSO_KEYSTORE=$RUNNER_TEMP/release.jks" >> "$GITHUB_ENV"
+            echo "SQUISH_KEYSTORE=$RUNNER_TEMP/release.jks" >> "$GITHUB_ENV"
           else
             echo "::warning::SIGNING_KEYSTORE_B64 is not set; signing with the debug key."
           fi
 
       - name: Test and build
         env:
-          ISO2CSO_KEYSTORE_PASSWORD: ${{ secrets.SIGNING_KEYSTORE_PASSWORD }}
-          ISO2CSO_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
+          SQUISH_KEYSTORE_PASSWORD: ${{ secrets.SIGNING_KEYSTORE_PASSWORD }}
+          SQUISH_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
         run: ./gradlew --no-daemon test assembleRelease
 
       - name: Rename APK
-        run: cp app/build/outputs/apk/release/app-release.apk iso2cso.apk
+        run: cp app/build/outputs/apk/release/app-release.apk SquishISO.apk
 
       - uses: actions/upload-artifact@v4
         with:
-          name: iso2cso-apk
-          path: iso2cso.apk
+          name: SquishISO-apk
+          path: SquishISO.apk
 
-      - name: Publish to the iso2cso-latest release
+      - name: Publish to the squishiso-latest release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release delete iso2cso-latest --yes --cleanup-tag || true
-          gh release create iso2cso-latest iso2cso.apk \
+          gh release delete squishiso-latest --yes --cleanup-tag || true
+          gh release create squishiso-latest SquishISO.apk \
             --target "$GITHUB_SHA" --prerelease \
-            --title "ISO2CSO (latest build)" \
-            --notes "Built from ${GITHUB_REF_NAME} @ ${GITHUB_SHA::7}. Download iso2cso.apk on your phone and open it to install."
+            --title "SquishISO (latest build)" \
+            --notes "Built from ${GITHUB_REF_NAME} @ ${GITHUB_SHA::7}. Download SquishISO.apk on your phone and open it to install."

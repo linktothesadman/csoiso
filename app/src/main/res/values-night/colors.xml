@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="accent">#B794FF</color>
-    <color name="background">#111318</color>
-    <color name="card">#1C1F26</color>
-    <color name="text_secondary">#A7ACB8</color>
-    <color name="placeholder">#2A2E37</color>
-    <color name="error">#EF9A9A</color>
-    <color name="success">#A5D6A7</color>
+    <color name="accent">#C4A3FF</color>
+    <color name="accent_tonal">#2C2147</color>
+    <color name="background">#120D1F</color>
+    <color name="card">#1D1630</color>
+    <color name="card_stroke">#2C2245</color>
+    <color name="text_primary">#F3EEFF</color>
+    <color name="text_secondary">#B3A9CC</color>
+    <color name="placeholder">#2C2245</color>
+    <color name="error">#FF8A8F</color>
+    <color name="success">#6EE7A0</color>
+    <color name="segment_bg">#1D1630</color>
 </resources>
